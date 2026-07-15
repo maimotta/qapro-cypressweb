@@ -1,61 +1,44 @@
 /// <reference types="cypress"/>
 
+import loginPage from '../support/pages/loginPage'
 
+describe('Login', () => {
+  beforeEach(() => {
+    loginPage.visit()
+  })
 
-describe("Login", () => {
+  it('Login com sucesso', () => {
+    loginPage
+      .preencherCredenciais('testName@test.com', '123456')
+      .submeter()
+      .validarMensagemSucesso()
+  })
 
-    beforeEach(() => {
-        cy.visit('/login')
-    })
+  it('Email em branco', () => {
+    loginPage
+      .submeter()
+      .validarCampoEmailVazio()
+      .validarMensagemErro('E-mail inválido.')
+  })
 
-    //Validar login com sucesso
-    it('Login com sucesso', () => {
-        cy.get('#user').type('testName@test.com')
-        cy.get('#password').type('123456')
-        cy.get('#btnLogin').click()
-        cy.get('#swal2-title')
-            .should('be.visible')
-            .should('have.text', 'Login realizado')
+  it('Senha invalida', () => {
+    loginPage
+      .preencherCredenciais('testName@test.com', 'asdfv')
+      .submeter()
+      .validarMensagemErro('Senha inválida.')
+  })
 
-    })
-    
-    //Validar mensagem de e-mail inválido
-    it('Email em branco', () => {
-        cy.get('#btnLogin').click()
-        cy.get('#user')
-            .should('have.value', '');
+  it('Email inválido', () => {
+    loginPage
+      .preencherCredenciais('testName.com', 'testName123')
+      .submeter()
+      .validarMensagemErro('E-mail inválido.')
+  })
 
-        cy.get('.invalid_input')
-            .should('be.visible')
-            .should('have.text', 'E-mail inválido.')
-    })
-
-    //Validar mensagem de senha inválida
-    it('Senha invalida', () => {
-        cy.get('#user').type('testName@test.com')
-        cy.get('#password').type('asdfv')
-        cy.get('#btnLogin').click()
-
-        cy.get('.invalid_input')
-            .should('be.visible')
-            .should('have.text', 'Senha inválida.')
-
-    })
-
-    it('Email inválido', () => {
-        cy.get("#user").type("testName.com");
-        cy.get("#password").type("testName123");
-        cy.get("#btnLogin").click();
-        cy.get(".invalid_input");
-        cy.should("be.visible").and("contain", "E-mail inválido.");
-    })
-
-    it("Senha incorreta", () => {
-        cy.get("#user").type("testName@teste.com");
-        cy.get("#password").type("rafae");
-        cy.get("#btnLogin").click();
-        cy.get(".invalid_input");
-        cy.should("be.visible").and("contain", "Senha inválida.");
-    });
-
+  it('Senha incorreta', () => {
+    loginPage
+      .preencherCredenciais('testName@teste.com', 'rafae')
+      .submeter()
+      .validarMensagemErro('Senha inválida.')
+  })
 })

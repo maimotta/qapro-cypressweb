@@ -1,64 +1,48 @@
-
 /// <reference types="cypress"/>
 
+import cadastroUsuarioPage from '../support/pages/cadastroUsuarioPage'
 
+describe('Cadastro usuario', () => {
+  beforeEach(() => {
+    cadastroUsuarioPage.visit()
+  })
 
-describe("Cadastro usuario", () => {
+  it('Cadastrar usuario', () => {
+    cadastroUsuarioPage
+      .preencherFormulario({
+        nome: 'Test Name',
+        email: 'testName@test.com',
+        senha: '123456'
+      })
+      .submeter()
+      .validarCadastroComSucesso()
+  })
 
-    //executa antes de cada teste
-     beforeEach(() => {
-        cy.visit('/register')
-    })
+  it('Verificar nome obrigatório', () => {
+    cadastroUsuarioPage
+      .preencherFormulario({ email: 'testName@test.com', senha: '123456' })
+      .submeter()
+      .validarMensagemErro('O campo nome deve ser prenchido')
+  })
 
-    // cadastro de usuário com todos os campos
-    it("Cadastrar usuario", () => {
-        cy.get('#user').type('Test Name')
-        cy.get('#email').type('testName@test.com')
-        cy.get('#password').type('123456')
-        cy.get('#btnRegister').click()
+  it('Verificar email obrigatório', () => {
+    cadastroUsuarioPage
+      .preencherFormulario({ nome: 'Test Name' })
+      .submeter()
+      .validarMensagemErro('O campo e-mail deve ser prenchido corretamente')
+  })
 
-        cy.get('#swal2-title')
-            .should('be.visible')
-            .should('have.text', 'Cadastro realizado!')
+  it('Verificar senha obrigatório', () => {
+    cadastroUsuarioPage
+      .preencherFormulario({ nome: 'Test Name', email: 'testName@test.com' })
+      .submeter()
+      .validarMensagemErro('O campo senha deve ter pelo menos 6 dígitos')
+  })
 
-    })
-
-    //verificar campos obrigatórios
-    it("Verificar nome obrigatório", () => {
-        cy.get('#email').type('testName@test.com')
-        cy.get('#password').type('123456')
-        cy.get('#btnRegister').click()
-        cy.get('#errorMessageFirstName')
-            .should('be.visible')
-            .should('have.text', 'O campo nome deve ser prenchido')
-    })
-
-    it("Verificar email obrigatório", () => {
-        cy.get('#user').type('Test Name')
-        cy.get('#btnRegister').click()
-        cy.get('#errorMessageFirstName')
-            .should('be.visible')
-            .should('have.text', 'O campo e-mail deve ser prenchido corretamente')
-    })
-
-    it("Verificar senha obrigatório", () => {
-        cy.get('#user').type('Test Name')
-        cy.get('#email').type('testName@test.com')
-        cy.get('#btnRegister').click()
-        cy.get('#errorMessageFirstName')
-            .should('be.visible')
-            .should('have.text', 'O campo senha deve ter pelo menos 6 dígitos')
-    })
-
-    it("Verificar senha menor", () => {
-        cy.get('#user').type('Test Name')
-        cy.get('#email').type('testName@test.com')
-        cy.get('#password').type('12345')
-        cy.get('#btnRegister').click()
-        cy.get('#errorMessageFirstName')
-            .should('be.visible')
-            .should('have.text', 'O campo senha deve ter pelo menos 6 dígitos')
-    })
-
-
+  it('Verificar senha menor', () => {
+    cadastroUsuarioPage
+      .preencherFormulario({ nome: 'Test Name', email: 'testName@test.com', senha: '12345' })
+      .submeter()
+      .validarMensagemErro('O campo senha deve ter pelo menos 6 dígitos')
+  })
 })
