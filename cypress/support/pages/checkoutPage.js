@@ -67,8 +67,10 @@ class CheckoutPage {
     return this
   }
 
+  // O site usa um único <span id="errorMessageFirstName"> para a mensagem de
+  // erro de qualquer campo do formulário (verificado em todos os campos).
   validarErro(mensagem) {
-    cy.get('#errorMessageFirstName').should('contain', mensagem)
+    cy.get('#errorMessageFirstName').should('be.visible').and('contain', mensagem)
     return this
   }
 }
