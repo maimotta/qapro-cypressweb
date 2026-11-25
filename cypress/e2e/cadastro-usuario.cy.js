@@ -32,6 +32,13 @@ describe('Cadastro usuario', () => {
       .validarMensagemErro('O campo e-mail deve ser prenchido corretamente')
   })
 
+  it('Verificar email com formato inválido', () => {
+    cadastroUsuarioPage
+      .preencherFormulario({ nome: 'Test Name', email: 'testName.com', senha: '123456' })
+      .submeter()
+      .validarMensagemErro('O campo e-mail deve ser prenchido corretamente')
+  })
+
   it('Verificar senha obrigatório', () => {
     cadastroUsuarioPage
       .preencherFormulario({ nome: 'Test Name', email: 'testName@test.com' })
