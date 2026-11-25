@@ -4,7 +4,7 @@
 describe("Comandos básicos", () => {
 
     it("Acessar uma URL", () => {
-        cy.visit('http://automationpratice.com.br/login')
+        cy.visit('/login')
     })
 
     it("Encontrar um elemento", () => {
@@ -13,7 +13,7 @@ describe("Comandos básicos", () => {
         // .login_submit . identifica que o que vem depois do . é uma classe
         // atenção ao usar classes pois podem ser usadas em mais de um lugar na tela
 
-        cy.visit('http://automationpratice.com.br/login')
+        cy.visit('/login')
         cy.get('#user')
         cy.get('.login_submit')
 
@@ -27,33 +27,33 @@ describe("Comandos básicos", () => {
     })
 
     it("Preencher um campo", () => {
-        cy.visit('http://automationpratice.com.br/login')
+        cy.visit('/login')
         // para preencher o campo primeiro pega ele com o get e preenche com o type
         cy.get('#user').type('mai@teste.com')
         cy.get('#password').type('123456')
     })
 
     it("Click", () => {
-        cy.visit('http://automationpratice.com.br/login')
-        cy.get('#btnRegister').chick()
+        cy.visit('/login')
+        cy.get('#btnLogin').click()
     })
 
     it("Select/Dropdown", () => {
-        cy.visit('https://automationpratice.com.br/checkout-one')
+        cy.visit('/checkout-one')
         //seleciona um elemento em um checkbox na tela por nome ou posição na lista
         cy.get('#country').select('usa')
-        cy.get('#country').select('2')
+        cy.get('#country').select(2)
     })
 
     it("Checkbox/Radio", () => {
-        cy.visit('https://automationpratice.com.br/checkout-one')
+        cy.visit('/checkout-one')
         //marca ou desmarca checkbox na tela
         cy.get('#materialUnchecked').check()
         cy.get('#materialUnchecked').uncheck()
     })
 
     it("Validar um elemento", () => {
-        cy.visit('http://automationpratice.com.br/login')
+        cy.visit('/login')
         //verifica se o elemento está visivel na tela
         cy.get('#createAccount')
             .should('be.visible')

@@ -5,9 +5,13 @@ class CadastroUsuarioPage {
   }
 
   preencherFormulario({ nome = '', email = '', senha = '' } = {}) {
-    cy.get('#user').clear().type(nome)
-    cy.get('#email').clear().type(email)
-    cy.get('#password').clear().type(senha)
+    // cy.type() não aceita texto vazio: campos sem valor ficam em branco
+    cy.get('#user').clear()
+    cy.get('#email').clear()
+    cy.get('#password').clear()
+    nome && cy.get('#user').type(nome)
+    email && cy.get('#email').type(email)
+    senha && cy.get('#password').type(senha)
     return this
   }
 
