@@ -1,13 +1,19 @@
 {
   "name": "qapro-cypressweb",
   "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
+  "description": "Testes automatizados E2E de interface web com Cypress e Page Objects (automationpratice.com.br)",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "cy:open": "cypress open",
+    "test": "cypress run"
   },
-  "keywords": [],
-  "author": "",
+  "keywords": [
+    "cypress",
+    "e2e",
+    "page-objects",
+    "qa",
+    "automacao-de-testes"
+  ],
+  "author": "Maiara Motta",
   "license": "ISC",
   "type": "commonjs",
   "dependencies": {
